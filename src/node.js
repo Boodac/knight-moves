@@ -37,7 +37,7 @@ export default class Node {
         let firstCoord = coordinate[0];
         if(this.#cipher[firstCoord]) firstCoord = this.#cipher[firstCoord];
         const secondCoord = coordinate[1];
-        return [parseInt(firstCoord), secondCoord];
+        return [parseInt(firstCoord), parseInt(secondCoord)];
     };
 
     #joinCoords(array) {
@@ -51,7 +51,3 @@ export default class Node {
     };
 
 };
-
-const node = new Node([7,3]);
-
-console.log(node.edges);
