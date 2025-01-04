@@ -1,13 +1,14 @@
+import { splitCoords, joinCoords } from "./coords.js";
+
 export default class Node {
     #coordinate // the internal coordinate represented as [intX, intY]
-    #cipher = { a: 1, b: 2, c: 3, d: 4, e: 5, f: 6, g: 7, h: 8 };
     constructor(coordinate) { 
-        this.#coordinate = this.#splitCoords(coordinate);
+        this.#coordinate = splitCoords(coordinate);
         this.edges = this.findEdges();
     };
 
     get coordinate() { // the external coordinate, in chess notation
-        return this.#joinCoords(this.#coordinate);
+        return joinCoords(this.#coordinate);
     };
 
     findEdges(node = this) {
@@ -25,29 +26,11 @@ export default class Node {
             xpOne_ypTwo: [xCoord+1, yCoord+2],
         };
 
-        return Object.values(flower).filter(coordinate => {
+        const arrayOfMoves = Object.values(flower).filter((coordinate) => {
             if(coordinate[0] <= 8 && coordinate[0] > 0 &&
-               coordinate[1] <= 8 && coordinate[1] > 0) {
-                return this.#joinCoords(coordinate);
-            }
-        }); // this filters the legal moves into an array
-    };
+               coordinate[1] <= 8 && coordinate[1] > 0) { return coordinate; }
+        }).map((element) => joinCoords(element)); // this filters the legal moves into an array of chess notation
 
-    #splitCoords(coordinate) {
-        let firstCoord = coordinate[0];
-        if(this.#cipher[firstCoord]) firstCoord = this.#cipher[firstCoord];
-        const secondCoord = coordinate[1];
-        return [parseInt(firstCoord), parseInt(secondCoord)];
+        return arrayOfMoves;
     };
-
-    #joinCoords(array) {
-        let string = "";
-        for(const key in this.#cipher) {
-            if(this.#cipher[key] === array[0]) {
-                string += key;
-            }
-        }
-        return string+array[1];
-    };
-
 };
