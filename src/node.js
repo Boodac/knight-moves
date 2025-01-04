@@ -1,6 +1,7 @@
 export default class Node {
-    #coordinate
-    constructor(coordinate) {
+    #coordinate // the internal coordinate represented as [x,y]
+    constructor(coordinate) { // constructor accepts chess notation
+        if(coordinate instanceof Array) throw new error("new Node() expects a string in chess notation");
         this.#coordinate = this.#splitCoords(coordinate);
     };
 
@@ -23,7 +24,7 @@ export default class Node {
         return string+array[1];
     };
 
-    get coordinate() {
+    get coordinate() { // the external coordinate, in chess notation
         return this.#joinCoords(this.#coordinate);
     }
 };
