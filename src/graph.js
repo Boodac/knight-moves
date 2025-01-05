@@ -1,20 +1,18 @@
 import Node from "./node.js";
+import { joinCoords } from "./coords.js";
 
 export default class AdjacencyGraph {
     #size
     #graph = {};
-    constructor(size) {
+    constructor(size = 8) {
         this.#size = size;
         this.#constructGraph();
     };
 
     find(value) {
+        if(value instanceof Array) value = joinCoords(value);
         return this.#graph[value];
     };
-
-    get report() {
-        return this.#graph;
-    }
 
     #constructGraph() {
         for(var x = 1; x <= this.#size; x++) {
@@ -25,7 +23,3 @@ export default class AdjacencyGraph {
         }
     };
 };
-
-const graph = new AdjacencyGraph(8);
-
-console.log(graph.report);
